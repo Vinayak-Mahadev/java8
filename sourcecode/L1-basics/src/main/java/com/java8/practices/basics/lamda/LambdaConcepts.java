@@ -30,23 +30,26 @@ public class LambdaConcepts
 		addition = new AdditionImpl();
 		System.out.println("traditional approach :: " + addition.add(a, b));
 
-
 		// java8 approach 1
+		addition = Add::perform;
+		System.out.println("static method assign to interface approach :: " + addition.add(a, b));
+		
+		// java8 approach 2
 		addition = (i,j) ->
 		{
 			return i+j;
 		};
 		System.out.println("java8 approach 1 :: " + addition.add(a, b));
 
-		// java8 approach 2
+		// java8 approach 3
 		addition = (i,j) -> (i+j);
 		System.out.println("java8 approach 2 :: " + addition.add(a, b));
 
-		// java8 approach 3
+		// java8 approach 4
 		addition = (i,j) -> i+j;
 		System.out.println("java8 approach 3 :: " + addition.add(a, b));
 
-		// java8 approach 4
+		// java8 approach 5
 		addition = (i,j) ->{
 			int x = i;  // You can't declare duplicate key variable in same class
 			int y = j;
@@ -95,4 +98,11 @@ public class LambdaConcepts
 		}
 	}
 
+	public static class Add
+	{
+		public static int perform(int a, int b)
+		{
+			return a + b;
+		}
+	}
 }

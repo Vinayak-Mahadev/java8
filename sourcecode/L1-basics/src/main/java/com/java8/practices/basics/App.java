@@ -1,6 +1,7 @@
 package com.java8.practices.basics;
 
 import com.java8.practices.basics.lamda.LambdaConcepts;
+import com.java8.practices.basics.lamda.StreamsConcepts;
 
 /**
 * <pre>
@@ -24,6 +25,7 @@ import com.java8.practices.basics.lamda.LambdaConcepts;
 public class App 
 {
 	public static LambdaConcepts lambdaConcepts = new LambdaConcepts();
+	public static StreamsConcepts streamsConcepts = new StreamsConcepts();
 	
 	/**
 	 * <pre>
@@ -42,10 +44,10 @@ public class App
 		System.out.println("Vinayak-Mahadev");
 		
 		/* LAMBDA EXAMPLES */
-		// Example1
+		// Example 1
 		lambdaConcepts.functionalAndLambdaExample();
-		
-		
+		// Example 2
+		streamsConcepts.runSample();
 	}
 
 }
