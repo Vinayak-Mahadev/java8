@@ -1,6 +1,7 @@
 package com.java8.practices.basics;
 
 import com.java8.practices.basics.lamda.LambdaConcepts;
+import com.java8.practices.basics.lamda.MethodReferencesConcepts;
 import com.java8.practices.basics.lamda.StreamsConcepts;
 
 /**
@@ -26,10 +27,11 @@ public class App
 {
 	public static LambdaConcepts lambdaConcepts = new LambdaConcepts();
 	public static StreamsConcepts streamsConcepts = new StreamsConcepts();
+	public static MethodReferencesConcepts methodReferencesConcepts = new MethodReferencesConcepts();
 	
 	/**
 	 * <pre>
-	 * 1. Functional Interface
+	 * 1. Functional Interface and Method reference
 	 * 2. Lambda Expression
 	 * 3. Streams [forEach, Filter, sorting in list & map]
 	 * 4. Map & FlatMap
@@ -45,8 +47,10 @@ public class App
 		
 		/* LAMBDA EXAMPLES */
 		// Example 1
-		lambdaConcepts.functionalAndLambdaExample();
+		methodReferencesConcepts.runSamples();
 		// Example 2
+		lambdaConcepts.runSamples();
+		// Example 3
 		streamsConcepts.runSample();
 	}
 
