@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+	<!-- FATAL < ERROR < WARN < INFO < DEBUG < TRACE -->
+
+	<include
+		resource="org/springframework/boot/logging/logback/base.xml" />
+
+	<!-- Our application level -->
+	<logger name="com.java8.practices" level="DEBUG" />
+
+	<!-- Other dependency level -->
+	<logger name="javax.activation" level="WARN" />
+	<logger name="javax.mail" level="WARN" />
+	<logger name="javax.management.remote" level="WARN" />
+	<logger name="javax.xml.bind" level="WARN" />
+	<logger name="com.sun" level="WARN" />
+	<logger name="org.apache" level="WARN" />
+	<logger name="org.apache.catalina.startup.DigesterFactory"
+		level="OFF" />
+	<logger name="org.bson" level="WARN" />
+	<logger name="org.springframework" level="DEBUG" />
+	<logger name="org.mongodb" level="WARN" />
+
+	<shutdownHook
+		class="ch.qos.logback.core.hook.DelayingShutdownHook" />
+
+	<contextListener
+		class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+</configuration>
