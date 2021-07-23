@@ -20,90 +20,98 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.java8.practices.advance.entities.single.Person;
+import com.java8.practices.advance.entities.single.one2one.Husband;
+import com.java8.practices.advance.entities.single.one2one.Wife;
 import com.java8.practices.advance.exceptions.ApplicationException;
 import com.java8.practices.advance.exceptions.ResourceNotFoundException;
-import com.java8.practices.advance.repo.PersonRepository;
+import com.java8.practices.advance.repo.HusbandWifeRepository;
 
 @RestController
-@RequestMapping("/api/person")
-public class PersonController 
+@RequestMapping("/api/HusbandWife")
+public class HusbandWifeController 
 {
-
 	@Autowired
-	PersonRepository personRepository;
+	HusbandWifeRepository husbandWifeRepository;
 
 	@GetMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<List<Person>> getAllPerson() throws ApplicationException
+	public ResponseEntity<List<Husband>> getAllHusbandWife()
 	{
-		List<Person> list = personRepository
+		List<Husband> list =  husbandWifeRepository
 				.findAll()
 				.stream()
 				.parallel()
-				.filter(p -> p!=null && p.getIsActive())
-				.sorted((p1,p2) -> p1.getId() > p2.getId() ? 1 : -1)
+				//				.filter(hw -> hw != null && hw.getWife() != null)
+				.sorted((h1,h2) -> (h1.getId() > h2.getId()) ? 1 : -1)
 				.collect(Collectors.toList());
-		return ResponseEntity.ok(list);
-		//		return new ResponseEntity<List<Person>>(list, HttpStatus.OK);
+
+		return new ResponseEntity<List<Husband>>(list, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person) throws ApplicationException
+	public ResponseEntity<Husband> createPerson(@Valid @RequestBody Husband husband) throws ApplicationException
 	{
-		return ResponseEntity.ok().body(personRepository.save(person));
+		return ResponseEntity.ok().body(husbandWifeRepository.save(husband));
 	}
 
+
 	@GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<Person> getPersonById(@PathVariable(name = "id") Long id) throws ApplicationException
+	public ResponseEntity<Husband> getHusbandById(@PathVariable(value = "id") Long id) throws ApplicationException
 	{
-		return ResponseEntity.ok()
-				.body(personRepository
+		//		User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(404l, "Given user id not present"));
+		return ResponseEntity
+				.ok(husbandWifeRepository
 						.findById(id)
-						.orElseThrow(
-								()->
-								new ResourceNotFoundException(1001l, "Given person id isn't present")
-								));
+						.orElseThrow(() -> new ResourceNotFoundException(1001l, "Given user id is not present")));
 	}
 
 	@PutMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<Person> updatePerson(@PathVariable(name = "id") Long id, @Valid @RequestBody Person person) throws ApplicationException
+	public ResponseEntity<Husband> updatePerson(@PathVariable(name = "id") Long id, @Valid @RequestBody Husband husband) throws ApplicationException
 	{
-		if(id != person.getId())
+		if(id != husband.getId())
 			throw new IllegalArgumentException("Path and Request body ids are mismatch");
 		ResponseEntity.ok()
-		.body(personRepository
+		.body(husbandWifeRepository
 				.findById(id)
 				.orElseThrow(
 						()->
-						new ResourceNotFoundException(1001l, "Given person id isn't present")
+						new ResourceNotFoundException(1001l, "Given husband id isn't present")
 						));
-		return ResponseEntity.ok().body(personRepository.saveAndFlush(person));
+		return ResponseEntity.ok().body(husbandWifeRepository.saveAndFlush(husband));
 	}
 
 	@DeleteMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	public ResponseEntity<Person> deletePerson(@PathVariable(name = "id") Long id) throws ApplicationException
+	public ResponseEntity<Husband> deletePerson(@PathVariable(name = "id") Long id) throws ApplicationException
 	{
-		Person person =  personRepository
+		Husband husband =  husbandWifeRepository
 				.findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException(1001l, "Given person id isn't present"));
-		personRepository.deleteById(id);
-		return ResponseEntity.ok(person);
+				.orElseThrow(()-> new ResourceNotFoundException(1001l, "Given husband id isn't present"));
+		husbandWifeRepository.deleteById(id);
+		return ResponseEntity.ok(husband);
 	}
+
 
 	@GetMapping(path = "/loadDummy", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	public ResponseEntity<Void> loadDummy() throws ApplicationException
 	{
-		// About collect (supplier, accumulator, combiner)
+		// 1 way (Simple)
+		/*
+		LongStream
+		.range(1, 11)
+		.forEach(l -> husbandWifeRepository
+				.save(new Husband("H"+l, new Wife("W"+l))));
+		 */
+
+		// 2 way [About collect (supplier, accumulator, combiner)]
 		long count = 10; 
-		personRepository.saveAll(LongStream
-				.range(0l, count)
+		husbandWifeRepository.saveAll(LongStream
+				.range(0l,count)
 				.sequential()
 				.collect(
 						ArrayList::new,
-						(list, element) ->	list.add(new Person(element, "P:"+element, true)),
+						(list, element) ->	list.add(new Husband("H"+element, new Wife("W"+element))),
 						ArrayList::addAll
 						));
-		//		.forEach(l -> personRepository.save(new Person(l, "P:"+l, true)));
+
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }
