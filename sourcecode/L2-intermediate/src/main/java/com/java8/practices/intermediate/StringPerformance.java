@@ -12,6 +12,7 @@ public class StringPerformance
 
 	}
 
+	@SuppressWarnings("unused")
 	static void testString(int count)
 	{
 		System.out.println("------------------------------------------------------------------------------");
@@ -25,6 +26,7 @@ public class StringPerformance
 		System.out.println("------------------------------------------------------------------------------");
 	}
 	
+	@SuppressWarnings("unused")
 	static void testStringBuffer(int count)
 	{
 		System.out.println("------------------------------------------------------------------------------");
@@ -38,6 +40,7 @@ public class StringPerformance
 		System.out.println("------------------------------------------------------------------------------");
 	}
 	
+	@SuppressWarnings("unused")
 	static void testStringBuilder(int count)
 	{
 		System.out.println("------------------------------------------------------------------------------");

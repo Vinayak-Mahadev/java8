@@ -1,5 +1,24 @@
-{"properties": [{
-  "name": "spring.security.h2.enable",
-  "type": "java.lang.String",
-  "description": "A description for 'spring.security.h2.enable'"
-}]}
+{
+	"properties": [
+		{
+			"name": "spring.security.h2.enable",
+			"type": "java.lang.String",
+			"description": "A description for 'spring.security.h2.enable'"
+		},
+		{
+			"name": "spring.security.custom.configuration",
+			"type": "java.lang.Boolean",
+			"description": "A description for 'spring.security.custom.configuration'"
+		},
+		{
+			"name": "spring.security.cors.origins",
+			"type": "java.lang.String",
+			"description": "A description for 'spring.security.cors.origins'"
+		},
+		{
+			"name": "spring.security.diable-csrf",
+			"type": "java.lang.Boolean",
+			"description": "A description for 'spring.security.diable-csrf'"
+		}
+	]
+}

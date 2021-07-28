@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class StreamsConcepts 
@@ -88,7 +89,13 @@ public class StreamsConcepts
 		Map<String,Long> countMap = studentList.stream().collect(Collectors.groupingByConcurrent(Student::getSclOrClg, Collectors.counting()));
 		System.out.println(countMap+"\n"); // groupingBy or groupingByConcurrent
 		
+		System.out.println("String[] into Map");
+		String[] arr = {"vinay","a","b","vinay","c"};
+		System.out.println(Arrays.toString(arr));
+		Arrays.stream(arr).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).forEach((k,v)->System.out.println(k +" : " + v));;
+
 		System.out.println("---------------------------------------------------------------------------");
+		
 	}
 
 

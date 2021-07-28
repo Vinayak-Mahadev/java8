@@ -29,6 +29,7 @@
 		<lombok>1.18.20</lombok>
 		<org.springframework.boot>2.2.2.RELEASE</org.springframework.boot>
 		<spring-boot-loader-tools>2.2.1.RELEASE</spring-boot-loader-tools>
+		<spring-boot-starter-actuator>2.0.3.RELEASE</spring-boot-starter-actuator>
 		<spring-security-core>5.3.9.RELEASE</spring-security-core>
 		<spring-boot-devtools>2.5.2</spring-boot-devtools>
 		<start-class>com.java8.practices.advance.App</start-class>
@@ -84,7 +85,17 @@
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring-security-core}</version>
 		</dependency>
-
+		<!-- 
+		<dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-actuator</artifactId> 
+			<version>${spring-boot-starter-actuator}</version> <scope>system</scope> 
+			<systemPath>${project.basedir}/libs/spring-boot-starter-actuator-2.2.2.RELEASE.jar</systemPath> 
+			</dependency> 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.3.9.RELEASE</version>
+		</dependency>
+		-->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
