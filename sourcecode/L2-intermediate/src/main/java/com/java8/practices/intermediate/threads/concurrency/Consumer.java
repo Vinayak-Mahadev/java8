@@ -6,7 +6,7 @@ public class Consumer extends Processor
 	{
 		super(broker, true, false);
 	}
-	
+
 	@Override
 	public void init() 
 	{
@@ -19,6 +19,14 @@ public class Consumer extends Processor
 	@Override
 	public void consume(Message message) 
 	{
+		try 
+		{
+			Thread.sleep(10);
+		}
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
 		System.out.println("Consumer :: " + getProcessId() + " : "+ message.getId() + " " + message.getMessage());
 	}
 

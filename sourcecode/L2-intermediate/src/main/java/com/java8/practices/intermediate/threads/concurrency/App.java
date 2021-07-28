@@ -27,8 +27,9 @@ public class App
 	{
 		long start = System.currentTimeMillis();
 
-		oneToMany(new Broker(1, 10, 200), 1);
-		
+
+		oneToMany(Broker.builder().queueSize(10).poll(30).build(), 10);
+
 		long end = System.currentTimeMillis();
 
 		System.out.println("oneToMany :: " + (end-start));

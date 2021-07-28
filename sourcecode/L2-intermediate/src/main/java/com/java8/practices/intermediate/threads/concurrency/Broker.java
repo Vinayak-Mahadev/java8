@@ -1,40 +1,46 @@
 package com.java8.practices.intermediate.threads.concurrency;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import lombok.Builder;
+import lombok.Getter;
+
+@Builder
+@Getter
 public class Broker 
 {
-	protected volatile ArrayBlockingQueue<Message> queue;
-	protected volatile ArrayList<Exception> noData;
+	protected volatile BlockingQueue<Message> queue;
+	protected volatile List<Exception> noData;
 
-	protected int poll;
+	@Builder.Default
+	protected int queueSize = 10;
 
-	protected int offer;
+	@Builder.Default
+	protected int poll = 10;
 
-	public Broker()
-	{
-		this(100,100,100);
-	}
-
-	public Broker(int capacity, int poll, int offer)
-	{
-		queue = new ArrayBlockingQueue<Message>(capacity);	
-		noData = new ArrayList<>();	
-		this.poll = poll;
-		this.offer = offer;
-	}
+	@Builder.Default
+	protected int offer = 0;
 
 	public void put(Message data) throws InterruptedException
 	{
+		if(queue == null) queue = new ArrayBlockingQueue<Message>(queueSize);
+		if(noData == null) noData = new ArrayList<>(1);
 		if(data == null) return;
-		//        this.queue.put(data);
-		this.queue.offer(data, offer, TimeUnit.MILLISECONDS);
+
+		if(offer == 0)
+			this.queue.put(data);
+		else
+			this.queue.offer(data, offer, TimeUnit.MILLISECONDS);
 	}
 
 	public Message get() throws InterruptedException
 	{
+		if(queue == null) queue = new ArrayBlockingQueue<Message>(queueSize);
+		if(noData == null) noData = new ArrayList<>(1);
 		return this.queue.poll(poll, TimeUnit.MILLISECONDS);
 	}
 }

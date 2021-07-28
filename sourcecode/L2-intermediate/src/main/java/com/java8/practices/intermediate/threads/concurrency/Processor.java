@@ -28,10 +28,6 @@ public abstract class Processor implements Runnable
 
 	public abstract void init();
 
-	public abstract Message produce();
-
-	public abstract void consume(Message message);
-
 	protected abstract void stop();
 
 	@Override
@@ -91,6 +87,10 @@ public abstract class Processor implements Runnable
 		}
 	}
 
+	protected abstract Message produce();
+
+	protected abstract void consume(Message message);
+
 	public void setBroker(Broker broker)
 	{
 		this.broker = broker;
@@ -109,7 +109,7 @@ public abstract class Processor implements Runnable
 	{
 		COUNT++;
 
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyMMddhhmmssSSS");
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyMMddhhmmss");
 
 		if (COUNT > MAX_COUNT)
 		{
