@@ -2,7 +2,6 @@ package com.java8.practices.advance.rest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import javax.validation.Valid;
@@ -20,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.java8.practices.advance.conf.aop.TrackTime;
 import com.java8.practices.advance.entities.single.Person;
 import com.java8.practices.advance.exceptions.ApplicationException;
-import com.java8.practices.advance.exceptions.ResourceNotFoundException;
-import com.java8.practices.advance.repo.PersonRepository;
+import com.java8.practices.advance.service.AppServiceLayer;
 
 @RestController
 @RequestMapping("/api/person")
@@ -31,71 +30,50 @@ public class PersonController
 {
 
 	@Autowired
-	PersonRepository personRepository;
+	protected AppServiceLayer personRepository;
 
-	@GetMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@GetMapping(path = "/", produces = { MediaType.APPLICATION_JSON_VALUE /* , MediaType.APPLICATION_XML_VALUE */})
+	@TrackTime
 	public ResponseEntity<List<Person>> getAllPerson() throws ApplicationException
 	{
-		List<Person> list = personRepository
-				.findAll()
-				.stream()
-				.parallel()
-				.filter(p -> p!=null && p.getIsActive())
-				.sorted((p1,p2) -> p1.getId() > p2.getId() ? 1 : -1)
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(list);
-		//		return new ResponseEntity<List<Person>>(list, HttpStatus.OK);
+		return ResponseEntity.ok().body(personRepository.getAllPerson());
 	}
 
-	@PostMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@PostMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE/* , MediaType.APPLICATION_XML_VALUE */})
+	@TrackTime
 	public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person) throws ApplicationException
 	{
-		return ResponseEntity.ok().body(personRepository.save(person));
+		return ResponseEntity.ok().body(personRepository.createPerson(person));
 	}
 
-	@GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE/* , MediaType.APPLICATION_XML_VALUE */})
+	@TrackTime
 	public ResponseEntity<Person> getPersonById(@PathVariable(name = "id") Long id) throws ApplicationException
 	{
-		return ResponseEntity.ok()
-				.body(personRepository
-						.findById(id)
-						.orElseThrow(
-								()->
-								new ResourceNotFoundException(1001l, "Given person id isn't present")
-								));
+		return ResponseEntity.ok().body(personRepository.getPersonById(id));
 	}
 
-	@PutMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@PutMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE/* , MediaType.APPLICATION_XML_VALUE */})
+	@TrackTime
 	public ResponseEntity<Person> updatePerson(@PathVariable(name = "id") Long id, @Valid @RequestBody Person person) throws ApplicationException
 	{
-		if(id != person.getId())
-			throw new IllegalArgumentException("Path and Request body ids are mismatch");
-		ResponseEntity.ok()
-		.body(personRepository
-				.findById(id)
-				.orElseThrow(
-						()->
-						new ResourceNotFoundException(1001l, "Given person id isn't present")
-						));
-		return ResponseEntity.ok().body(personRepository.saveAndFlush(person));
+		return ResponseEntity.ok().body(personRepository.updatePerson(id, person));
 	}
 
-	@DeleteMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@DeleteMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE/* , MediaType.APPLICATION_XML_VALUE */})
+	@TrackTime
 	public ResponseEntity<Person> deletePerson(@PathVariable(name = "id") Long id) throws ApplicationException
 	{
-		Person person =  personRepository
-				.findById(id)
-				.orElseThrow(()-> new ResourceNotFoundException(1001l, "Given person id isn't present"));
-		personRepository.deleteById(id);
-		return ResponseEntity.ok(person);
+		return ResponseEntity.ok(personRepository.deletePerson(id));
 	}
 
-	@GetMapping(path = "/loadDummy", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@GetMapping(path = "/loadDummy", produces = {MediaType.APPLICATION_JSON_VALUE/* , MediaType.APPLICATION_XML_VALUE */})
+	@TrackTime
 	public ResponseEntity<Void> loadDummy() throws ApplicationException
 	{
 		// About collect (supplier, accumulator, combiner)
 		long count = 10; 
-		personRepository.saveAll(LongStream
+		personRepository.createPersonPerson(LongStream
 				.range(0l, count)
 				.sequential()
 				.collect(

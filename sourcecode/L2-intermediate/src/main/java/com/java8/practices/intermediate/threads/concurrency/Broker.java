@@ -43,4 +43,17 @@ public class Broker
 		if(noData == null) noData = new ArrayList<>(1);
 		return this.queue.poll(poll, TimeUnit.MILLISECONDS);
 	}
+
+	public boolean isQueueFull() 
+	{
+		if(queue == null) return false;
+		return queue.size() == queueSize ? true : false;
+	}
+
+	public boolean isQueueEmpty() 
+	{
+		if(queue != null)
+			return queue.isEmpty();
+		return true;
+	}
 }

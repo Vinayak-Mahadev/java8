@@ -47,13 +47,18 @@ public abstract class Processor implements Runnable
 				{
 					message = produce();
 
+//					while (broker.isQueueFull())
+//						wait();
+
 					if(message != null && message.isDataAvailable())
 					{
 						broker.put(message);
+//						notify();
 					}
 					else if(message != null && !message.isDataAvailable())
 					{
 						broker.put(message);
+//						notify();
 						broker.noData.add(new Exception("No Data"));
 						stop();
 						break;
@@ -61,6 +66,9 @@ public abstract class Processor implements Runnable
 				}
 				else if(consumer)
 				{
+//					while (broker.isQueueEmpty()) 
+//						wait();	
+//					notify();
 					message = broker.get();
 
 					if(message != null && message.isDataAvailable()) 

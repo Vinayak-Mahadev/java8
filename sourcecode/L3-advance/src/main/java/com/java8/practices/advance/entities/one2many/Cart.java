@@ -1,4 +1,4 @@
-package com.java8.practices.advance.entities.single.one2many;
+package com.java8.practices.advance.entities.one2many;
 
 import java.util.Set;
 
@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -16,12 +17,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "cart")
 @RequiredArgsConstructor
+@NoArgsConstructor
 public class Cart 
 {
 	@Id
 	@Column(name = "cart_id")
 	@Getter
 	@Setter
+	@NonNull
 	private Long cartId;
 	
 	@Column(name = "cart_name")

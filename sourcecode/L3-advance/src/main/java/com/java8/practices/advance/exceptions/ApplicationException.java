@@ -14,7 +14,7 @@ public class ApplicationException extends Exception
 
 	public ApplicationException() 
 	{
-		super();
+		super(null,null, false, false);
 	}
 
 	public ApplicationException(Long errorCode, String message)
@@ -24,7 +24,7 @@ public class ApplicationException extends Exception
 
 	public ApplicationException(Long errorCode, String message, Throwable cause)
 	{
-		super(message, cause);
+		super(message,cause, false, false);
 		this.message = message;
 		this.errorCode = errorCode;
 	}

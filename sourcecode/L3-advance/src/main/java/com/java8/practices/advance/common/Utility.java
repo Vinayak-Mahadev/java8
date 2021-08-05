@@ -2,8 +2,10 @@ package com.java8.practices.advance.common;
 
 public class Utility 
 {
-	public static synchronized void setThreadId(long id)
+
+	public static synchronized String getId() 
 	{
-		Thread.currentThread().setName(id+"");
+		return Thread.currentThread().getName();
 	}
+
 }
