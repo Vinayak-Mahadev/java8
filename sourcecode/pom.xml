@@ -11,7 +11,9 @@
 		<module>L1-basics</module>
    		<module>L2-intermediate</module>
    		<module>L3-advance</module>
-   </modules>
+    <module>L4-jpa-plugin</module>
+    <module>L5-entities</module>
+  </modules>
 
 
 

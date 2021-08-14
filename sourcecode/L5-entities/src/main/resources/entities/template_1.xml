@@ -1,0 +1,2074 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<entity-mappings version="2.0" >
+	<package>com.enhancesys.entities.integration</package>
+
+	<!-- ================================= MS_MODULE ========================================= -->
+	<entity class="Module">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="module")</java-annotation>
+			<java-annotation>@XmlRootElement(name="module")</java-annotation>
+		</java-annotations>
+		<table name="MS_MODULE"/>
+		<attributes>
+			<id name="moduleId">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="moduleId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="module_id_n"/>            
+			</id>
+
+			<basic name="name">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="name", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="name_v" nullable="false"/>
+			</basic>
+
+			<basic name="callBack">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="callBack")</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="call_back_v" nullable="true"/>
+			</basic>
+
+			<basic name="priority">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="priority")</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="priority_n" nullable="true"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+
+			<one-to-many name="interfaces" mapped-by="module" fetch="LAZY">
+				<java-annotations>
+					<java-annotation>@AuditMappedBy(mappedBy="module")</java-annotation>
+				</java-annotations>
+				<java-attributes type="Interfaces">
+					<getter name="getInterfaces"/>
+					<enquirer name="hasInterface"/>
+					<adder name="addInterface"/>
+					<remover name="removeInterface"/>
+				</java-attributes>
+			</one-to-many> 
+		</attributes>
+	</entity>
+
+	<!-- ================================= MS_INTERFACE ========================================= -->
+	<entity class="Interfaces">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="interfaces")</java-annotation>
+			<java-annotation>@XmlRootElement(name="interfaces")</java-annotation>
+		</java-annotations>
+		<table name="MS_INTERFACE"/>
+		<attributes>
+			<id name="interfaceId">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="interfaceId", required = true)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="interface_id_n"/> 
+			</id>
+			<basic name="name">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="name", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="name_v" nullable="false"/>
+			</basic>
+
+			<many-to-one name="module" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>
+				</java-annotations>
+				<java-attributes type="Module" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=Module.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="moduleId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter />
+				</java-attributes>
+				<join-column name="module_id_n" nullable="false" />
+			</many-to-one>
+
+			<basic name="interfaceType">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="interfaceType", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="interface_type_n" nullable="false"/>
+			</basic>
+
+			<basic name="transactionType">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="transactionType", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="trans_type_n" nullable="false"/>
+			</basic>
+
+			<basic name="sequence">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="sequence", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="seq_n" nullable="true"/>
+			</basic>			
+			
+			<basic name="converter">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="converter", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="converter_v" nullable="false"/>
+			</basic>
+
+			<basic name="publisher">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="publisher", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="publisher_v" nullable="false"/>
+			</basic>
+			
+			<basic name="responseProcessor">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="responseProcessor", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="response_processor_v" nullable="true"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+
+			<one-to-many name="attributes" mapped-by="interfaces" fetch="LAZY">
+				<java-annotations>
+					<java-annotation>@AuditMappedBy(mappedBy="interfaces")</java-annotation>
+				</java-annotations>
+				<java-attributes type="InterfaceAttribute">
+					<getter name="getAttributes"/>
+					<enquirer name="hasAttribute"/>
+					<adder name="addAttribute"/>
+					<remover name="removeAttribute"/>
+				</java-attributes>
+			</one-to-many> 
+		</attributes>
+	</entity>
+
+	<!-- ================================= MS_INTERFACE_ATTR ========================================= -->
+	<entity class="InterfaceAttribute">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="interfaceAttribute")</java-annotation>
+			<java-annotation>@XmlRootElement(name="interfaceAttribute")</java-annotation>
+		</java-annotations>
+		<table name="ms_interface_attr"/>
+		<attributes>
+			<id name="attributeId">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="attributeId", required = true)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="attribute_id_n"/>
+			</id>
+
+			<many-to-one name="interfaces" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>
+				</java-annotations>
+				<java-attributes type="Interfaces" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=Interfaces.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="interfaceId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter />
+				</java-attributes>
+				<join-column name="interface_id_n" nullable="false" />
+			</many-to-one>
+
+			<basic name="name">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="name", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="name_v" nullable="false"/>
+			</basic>
+
+			<basic name="value">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="value", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="value_v" nullable="false"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+
+	<!-- ================================= TR_INTERFACE_SUMMARY ======================================= -->
+	<entity class="InterfaceSummary">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="interfaceSummary")</java-annotation>
+			<java-annotation>@XmlRootElement(name="interfaceSummary")</java-annotation>
+		</java-annotations>
+		<table name="tr_interface_summary"/>
+		<attributes>
+			<id name="transactionId">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="transactionId")</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="trans_id_n"/>
+				<generated-value generator="tr_interface_summary_seq" strategy="SEQUENCE"/>
+				<sequence-generator name="tr_interface_summary_seq" sequence-name="tr_interface_summary_seq" allocation-size="1" initial-value="1"/>
+			</id>
+
+			<many-to-one name="interfaces" optional="false" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Interfaces" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=Interfaces.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="interfaces", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<join-column name="interface_id_n" nullable="false"/>
+			</many-to-one>
+			
+			<basic name="originalRequestData">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<java-annotation>@Lob</java-annotation>
+				</java-annotations>
+				<java-attributes type="byte[]" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="originalRequestData", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="orgnl_request_data_b" nullable="false"/>
+			</basic>
+
+			<basic name="requestData">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<java-annotation>@Lob</java-annotation>
+				</java-annotations>
+				<java-attributes type="byte[]" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="requestData", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="request_data_b" nullable="false"/>
+			</basic>
+
+			<basic name="requestTime">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="requestTime", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="request_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+
+			<basic name="dueTime">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="dueTime", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="due_time_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			
+			<basic name="ackData">
+				<java-annotations>
+					<java-annotation>@Lob</java-annotation>
+				</java-annotations>
+				<java-attributes type="byte[]" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="ackData", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ack_data_b" nullable="true"/>
+			</basic>
+			
+			<basic name="ackTime">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="ackTime", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="ack_time_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			
+			<basic name="originalResponseData">
+				<java-annotations>
+					<java-annotation>@Lob</java-annotation>
+				</java-annotations>
+				<java-attributes type="byte[]" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="originalResponseData", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="orgnl_response_data_b" nullable="true"/>
+			</basic>
+
+			<basic name="responseData">
+				<java-annotations>
+					<java-annotation>@Lob</java-annotation>
+				</java-annotations>
+				<java-attributes type="byte[]" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="responseData", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="response_data_b" nullable="true"/>
+			</basic>
+			
+			<basic name="responseTime">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="responseTime", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="response_time_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			
+			<many-to-one name="status" fetch="EAGER">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="net.treetechnologies.entities.masters.Status" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=net.treetechnologies.entities.masters.Status.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="statusId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<join-column name="status_n" nullable="false"/>
+			</many-to-one>
+
+			<basic name="retryCount">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="retryCount", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="retry_count_n" nullable="true"/>
+			</basic>
+
+			<basic name="referenceData1">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="referenceData1", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ref_data1_v" nullable="true"/>
+			</basic>
+
+			<basic name="referenceData2">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="referenceData2", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ref_data2_n" nullable="true"/>
+			</basic>
+
+			<basic name="referenceData3">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="referenceData3", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ref_data3_n" nullable="true"/>
+			</basic>
+
+			<basic name="referenceData4">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="referenceData4", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ref_data4_n" nullable="true"/>
+			</basic>
+
+			<basic name="referenceData5">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="referenceData5", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ref_data5_v" nullable="true"/>
+			</basic>
+
+			<basic name="referenceData6">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="referenceData6", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ref_data6_v" nullable="true"/>
+			</basic>
+
+			<basic name="referenceData7">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="referenceData7", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ref_data7_v" nullable="true"/>
+			</basic>
+
+			<basic name="referenceData8">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="referenceData8", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ref_data8_v" nullable="true"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+	<!--===========================TR_INTERFACE_FILE_SUMMARY============================================-->
+	<entity class="InterfaceFileSummary">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="interfaceFileSummary")</java-annotation>
+			<java-annotation>@XmlRootElement(name="interfaceFileSummary")</java-annotation>
+		</java-annotations>
+		<table name="tr_interface_file_summary"/>
+		<attributes>
+			<id name="fileId">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="fileId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="file_id_n"/>
+				<generated-value generator="tr_interface_file_sum_seq" strategy="SEQUENCE"/>
+	            		<sequence-generator name="tr_interface_file_sum_seq" sequence-name="tr_interface_file_sum_seq" allocation-size="1" initial-value="1"/>
+			</id>
+
+			<basic name="fileName">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="fileName", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="file_name_v" nullable="false"/>
+			</basic>
+
+			<many-to-one name="interfaces" optional="false" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<!--<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Interfaces" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=Interfaces.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="interfaces", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<join-column name="interface_id_n" nullable="false"/>
+			</many-to-one>
+
+			<basic name="receivedServerDetails">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="receivedServerDetails", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="received_server_v" nullable="true"/>
+			</basic>
+
+			<basic name="sendServerDetails">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="sendServerDetails", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="send_server_v" nullable="true"/>
+			</basic>
+
+			<basic name="localServerDetails">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="localServerDetails", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="local_server_v" nullable="true"/>
+			</basic>
+
+			<basic name="totalCount">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="totalCount", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="total_count_n" nullable="false"/>
+			</basic>
+
+			<basic name="successCount">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="successCount", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="success_count_n" nullable="true"/>
+			</basic>
+
+			<basic name="errorCount">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="errorCount", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="error_count_n" nullable="true"/>
+			</basic>
+
+			<basic name="filterCount">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="filterCount", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="filter_count_n" nullable="true"/>
+			</basic>
+
+			<basic name="uploadedBy">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="uploadedBy", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="uploaded_by_n" nullable="true"/>
+			</basic>
+
+			<many-to-one name="status" fetch="EAGER">
+				<java-annotations>
+					<!--<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="net.treetechnologies.entities.masters.Status" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=net.treetechnologies.entities.masters.Status.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="statusId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<join-column name="status_n" nullable="false"/>
+			</many-to-one>
+
+			<basic name="message">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="message", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="message_v" nullable="true"/>
+			</basic>
+
+			<basic name="errorMessage">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="errorMessage", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="error_message_v" nullable="true"/>
+			</basic>
+
+			<basic name="retryCount">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="retryCount", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="retry_count_n" nullable="true"/>
+			</basic>
+			
+			<basic name="validatedOn">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+	            </java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="validatedOn", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="validated_on_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+
+			<basic name="processedOn">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>-->
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="processedOn", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="processed_on_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+
+			<basic name="uploadedOn">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="uploadedOn", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="uploaded_on_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+			
+			<one-to-many name="filesummarydetails" mapped-by="interfaceFileSummary" fetch="LAZY">
+				<java-annotations>
+					<!--<java-annotation>@AuditMappedBy(mappedBy="interfaceFileSummary")</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="InterfaceFileSummaryDetails">
+					<getter name="getFileSummaryDetails"/>
+					<enquirer name="hasFileSummaryDetail"/>
+					<adder name="addFileSummaryDetail"/>
+					<remover name="removeFileSummaryDetail"/>
+				</java-attributes>
+			</one-to-many>
+		</attributes>
+	</entity>
+
+	<!-- ================================= TR_INTERFACE_FAILURE ========================================= -->
+	<entity class="InterfaceFailure">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="interfaceFailure")</java-annotation>
+			<java-annotation>@XmlRootElement(name="interfaceFailure")</java-annotation>
+		</java-annotations>
+		<table name="tr_interface_failure"/>
+		<attributes>
+			<id name="transactionFailureId">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="transactionFailureId", required = true)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="trans_failure_id_n"/>
+				<generated-value generator="tr_interface_failure_seq" strategy="SEQUENCE"/>
+	            <sequence-generator name="tr_interface_failure_seq" sequence-name="tr_interface_failure_seq" allocation-size="1" initial-value="1"/>
+			</id>
+			
+			<many-to-one name="interfaceSummary" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<!--<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="InterfaceSummary" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=InterfaceSummary.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="transactionId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter />
+				</java-attributes>
+				<join-column name="trans_id_n" nullable="false" />
+			</many-to-one>
+
+			<basic name="ackData">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@Lob</java-annotation>
+				</java-annotations>
+				<java-attributes type="byte[]" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="ackData", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ack_data_b" nullable="true"/>
+			</basic>
+
+			<basic name="ackTime">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="ackTime", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="ack_time_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+
+			<basic name="fileId">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="fileId", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="file_id_n" nullable="true"/>
+			</basic>
+			
+			<basic name="responseData">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@Lob</java-annotation>
+				</java-annotations>
+				<java-attributes type="byte[]" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="responseData", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="response_data_b" nullable="true"/>
+			</basic>
+			
+			<basic name="responseTime">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="responseTime", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="response_time_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>		
+
+			<basic name="errorCode">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="errorCode", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="error_code_n" nullable="false"/>
+			</basic>
+
+			<basic name="errorMessage">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="errorMessage", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="error_message_v" nullable="false"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+
+	<!--===========================TR_INTERFACE_FILE_SUMMARY_DETAILS============================================-->
+	<entity class="InterfaceFileSummaryDetails">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="interfaceFileSummaryDetails")</java-annotation>
+			<java-annotation>@XmlRootElement(name="interfaceFileSummaryDetails")</java-annotation>
+		</java-annotations>
+		<table name="tr_interface_file_summary_details"/>
+		<attributes>
+			<id name="fileDetailsId">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="fileDetailsId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="file_details_id_n"/>
+				<generated-value generator="tr_interface_file_sum_det_seq" strategy="SEQUENCE"/>
+	            		<sequence-generator name="tr_interface_file_sum_det_seq" sequence-name="tr_interface_file_sum_det_seq" allocation-size="1" initial-value="1"/>
+			</id>
+
+			<many-to-one name="interfaceFileSummary" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<!--<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="InterfaceFileSummary" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=InterfaceFileSummary.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="interfaceFileSummary", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<join-column name="file_id_n" nullable="false"/>
+			</many-to-one>
+
+			<basic name="fileName">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="fileName", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="file_name_v" nullable="false"/>
+			</basic>
+
+			<basic name="controlFileName">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="controlFileName", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="ctrl_file_name_v" nullable="false"/>
+			</basic>
+
+			<basic name="fileType">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="fileType", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="file_type_v" nullable="false"/>
+			</basic>
+
+			<basic name="totalCount">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="totalCount", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="total_count_n" nullable="true"/>
+			</basic>
+
+			<basic name="successCount">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="successCount", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="success_count_n" nullable="true"/>
+			</basic>
+
+			<basic name="errorCount">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="errorCount", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="error_count_n" nullable="true"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+
+		</attributes>
+	</entity>
+
+
+	<!-- ================================= MS_INTERFACE_NOTIFICATION ========================================= -->
+	<entity class="InterfaceNotification">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="interfaceNotification")</java-annotation>
+			<java-annotation>@XmlRootElement(name="interfaceNotification")</java-annotation>
+		</java-annotations>
+		<table name="MS_INTERFACE_NOTIFICATION"/>
+		<attributes>
+
+			
+			<id name="interfaceNotificationId">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="interfaceNotificationId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="interface_notification_id_n"/>   
+				<generated-value generator="ms_interfc_notif_seq" strategy="SEQUENCE"/>
+				<sequence-generator name="ms_interfc_notif_seq" sequence-name="ms_interfc_notif_seq" allocation-size="1" initial-value="1"/>
+			</id>
+
+			<basic name="scenario">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="scenario", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="scenario_v" nullable="false"/>
+			</basic>
+
+			<basic name="subject">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="subject", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="subject_v" nullable="false"/>
+			</basic>
+
+			<basic name="toFirstName">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="toFirstName", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="to_first_name_v" nullable="false"/>
+			</basic>
+
+
+			<basic name="toAddress">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="toAddress", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="to_address_v" nullable="false"/>
+			</basic>
+
+			<basic name="toCC">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+				
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="toCC", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="to_cc_v" nullable="true"/>
+			</basic>
+
+			<basic name="toBCC">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+				
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="toBCC", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="to_bcc_v" nullable="true"/>
+			</basic>
+
+			<basic name="media">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="media", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="media_v" nullable="false"/>
+			</basic>
+			
+				<basic name="language">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="language", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="language_v" nullable="false"/>
+			</basic>
+			
+
+			
+
+			<basic name="templateName">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="templateName", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="template_name_v" nullable="false"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+
+			<many-to-one name="status" fetch="EAGER">
+				<java-annotations>
+					<!--<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="net.treetechnologies.entities.masters.Status" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=net.treetechnologies.entities.masters.Status.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="statusId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<join-column name="status_n" nullable="false"/>
+			</many-to-one>
+
+			<many-to-one name="interfaces" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>
+				</java-annotations>
+				<java-attributes type="Interfaces" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=Interfaces.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="interfaceId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter />
+				</java-attributes>
+				<join-column name="interface_id_n" nullable="false" />
+			</many-to-one>
+		</attributes>
+	</entity>
+	
+	<!--======================== MS_BOUNCED_EMAIL==================================== -->
+		<entity class="BounceEmail">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="bounceEmail")</java-annotation>
+			<java-annotation>@XmlRootElement(name="bounceEmail")</java-annotation>
+		</java-annotations>
+		<table name="ms_bounced_email"/>
+		<attributes>
+			<id name="bounceId">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="bounceId", required = false)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="bounce_id_n" nullable="true"/> 
+			</id>
+	
+			<basic name="bounceEmail">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="bounceEmail", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="bounce_mail_id_v" nullable="true"/>
+			</basic>
+
+
+			<basic name="bounceType">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="bounceType", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="bounce_type_v" nullable="false"/>
+			</basic>
+
+			<basic name="bounceSubType">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="bounceSubType", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="bounce_sub_type_v" nullable="false"/>
+			</basic>
+
+			<basic name="action">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="action", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="action_v" nullable="true"/>
+			</basic>			
+			
+			<basic name="diagnosticCode">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="diagnosticCode", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="diagnostic_code_v" nullable="false"/>
+			</basic>
+			
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+
+		</attributes>
+	</entity>
+
+<!-- ================================= TR_DAILY_DUMP_SUMMARY ======================================= -->
+	<entity class="DailyDumpSummary">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="dailyDumpSummary")</java-annotation>
+			<java-annotation>@XmlRootElement(name="dailyDumpSummary")</java-annotation>
+		</java-annotations>
+		<table name="tr_daily_dump_summary"/>
+		<attributes>
+			<id name="dumpId">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="dumpId")</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="dump_id_n"/>
+				<generated-value generator="tr_daily_dump_summary_seq" strategy="SEQUENCE"/>
+				<sequence-generator name="tr_daily_dump_summary_seq" sequence-name="tr_daily_dump_summary_seq" allocation-size="1" initial-value="1"/>
+			</id>
+
+			<many-to-one name="interfaces" optional="false" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<!--<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Interfaces" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=Interfaces.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="interfaces", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<join-column name="interface_id_n" nullable="false"/>
+			</many-to-one>
+			
+			<basic name="createdDate">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="createdDate", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="created_date_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+
+			<basic name="status">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="status", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="status_n" nullable="false"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+<!-- ====================================================== MS_KYC_SYNC_INFO ================================================== -->
+	<entity class="KycSyncInfo">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="kycSyncInfo")</java-annotation>
+			<java-annotation>@XmlRootElement(name="kycSyncInfo")</java-annotation>
+		</java-annotations>
+		<table name="MS_KYC_SYNC_INFO"/>
+		<attributes>
+			<id name="syncId">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="syncId", required = true)</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="sync_id_n"/> 
+			</id>
+
+			<many-to-one name="interfaces" optional="false" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<!--<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Interfaces" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=Interfaces.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="interfaces", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<join-column name="interface_id_n" nullable="false"/>
+			</many-to-one>
+
+			<basic name="kycField">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="kycField", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="kyc_field_v" nullable="false"/>
+			</basic>
+
+			<basic name="kycFlag">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="kycFlag", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="kyc_flag_n" nullable="false"/>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+
+<!-- ====================================================== TR_CLEAN_UP_SUMMARY ================================================== -->
+	<entity class="CleanUpSummary">
+		<java-annotations>
+			<java-annotation>@XmlAccessorType(XmlAccessType.NONE)</java-annotation>
+			<java-annotation>@XmlType(name="cleanUpSummary")</java-annotation>
+			<java-annotation>@XmlRootElement(name="cleanUpSummary")</java-annotation>
+		</java-annotations>
+		<table name="tr_clean_up_summary"/>
+		<attributes>
+			<id name="cleanupId">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="protected">
+					<setter/>
+					<getter scope="public">
+						<java-annotations>
+							<java-annotation>@XmlElement(name="cleanupId")</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="cleanup_id_n"/>
+				<generated-value generator="tr_clean_up_summary_seq" strategy="SEQUENCE"/>
+				<sequence-generator name="tr_clean_up_summary_seq" sequence-name="tr_clean_up_summary_seq" allocation-size="1" initial-value="1"/>
+			</id>
+
+			<many-to-one name="interfaces" optional="false" fetch="EAGER">
+				<java-annotations>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+					<java-annotation>@Audited(targetAuditMode=RelationTargetAuditMode.NOT_AUDITED)</java-annotation>
+				</java-annotations>
+				<java-attributes type="Interfaces" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=Interfaces.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="interfaces", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<join-column name="interface_id_n" nullable="false"/>
+			</many-to-one>
+			
+			<basic name="userId">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="userId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="user_id_v" nullable="false"/>
+			</basic>
+
+			<basic name="actvityName">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="actvityName", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="actvity_name_v" nullable="false"/>
+			</basic>
+
+			<basic name="message">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="message", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="message_v" nullable="true"/>
+			</basic>
+			
+			<many-to-one name="status" fetch="EAGER">
+				<java-annotations>
+				</java-annotations>
+				<java-attributes type="net.treetechnologies.entities.masters.Status" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlJavaTypeAdapter(value=net.treetechnologies.entities.masters.Status.IDAdapter.class)</java-annotation>
+							<java-annotation>@XmlElement(name="statusId", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<join-column name="status_n" nullable="false"/>
+			</many-to-one>
+
+			<basic name="errorMessage">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="errorMessage", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter/>
+				</java-attributes>
+				<column name="error_message_v" nullable="true"/>
+			</basic>
+			
+			<basic name="initiatedTime">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="initiatedTime", required=true)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="initiated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+
+			<basic name="completedTime">
+				<java-annotations>
+					<!--<java-annotation>@Audited</java-annotation>-->
+	            </java-annotations>
+				<java-attributes type="Date" scope="protected">	
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlElement(name="completedTime", required=false)</java-annotation>
+						</java-annotations>
+					</getter>
+					<setter scope="public"/>
+				</java-attributes>
+				<column name="completed_time_dt" nullable="true"/>
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@Audited</java-annotation>
+					<java-annotation>@javax.validation.constraints.NotNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="protected">
+					<getter>
+						<java-annotations>
+							<java-annotation>@XmlTransient</java-annotation>
+						</java-annotations>
+					</getter>
+				</java-attributes>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+	
+</entity-mappings>

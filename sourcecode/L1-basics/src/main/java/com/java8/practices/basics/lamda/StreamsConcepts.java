@@ -28,7 +28,7 @@ public class StreamsConcepts
 		// joiner
 		StringJoiner joiner = new StringJoiner(",");
 		
-		numberList.forEach(n -> joiner.add(n+""));
+		numberList.stream().map(n -> n.toString()).forEach(joiner::add);
 		System.out.println("String joiner :: " + joiner.toString());
 		
 		System.out.println("\nPrint all number list");
