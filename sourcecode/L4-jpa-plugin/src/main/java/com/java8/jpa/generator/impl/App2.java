@@ -9,17 +9,20 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import com.java8.jpa.generator.EntityGenerator;
 
-@Mojo(name = "jpa-generate", defaultPhase = LifecyclePhase.INITIALIZE)
-public class App extends AbstractMojo
+@Mojo(name = "boot-generate", defaultPhase = LifecyclePhase.INITIALIZE)
+public class App2 extends AbstractMojo
 {
 
-	private EntityGenerator generator = new JpaEntityGenerator();
-	
+	private EntityGenerator generator = new SpringBootEntityGenerator();
+
 	@Parameter(property = "templates")
-	private String[] templates;
+	private String templates;
 
 	@Parameter(property = "base")
 	private String base;
+
+	@Parameter(property = "fileLoc")
+	private String fileLoc;
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException 
@@ -27,14 +30,21 @@ public class App extends AbstractMojo
 		boolean flag = true;
 		try 
 		{
-			for(String filePath  : templates)
+			System.out.println("templates : " + templates);
+			for(String filePath  : templates.split("\\|"))
 			{
-				generator.generate(filePath, base, flag);
-				flag = false;
+				System.out.println(fileLoc  + filePath + ".xml");
+				if(filePath != null && !filePath.isEmpty())
+				{
+					generator.generate(fileLoc  + filePath + ".xml", base, flag);
+					flag = false;
+				}
+					
 			}
 		}
 		catch (Exception e) 
 		{
+			e.printStackTrace();
 			throw new MojoFailureException(e.getMessage());
 		}
 		finally 

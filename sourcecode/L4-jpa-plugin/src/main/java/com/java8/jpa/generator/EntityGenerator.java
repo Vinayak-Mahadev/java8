@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface EntityGenerator 
 {
-	public boolean generate(String input, String base) throws EntityGeneratorException;
+	public boolean generate(String input, String base, boolean flag) throws EntityGeneratorException;
 
 	public boolean generate(Map<String,String> fileNameAndLocation) throws EntityGeneratorException;
 

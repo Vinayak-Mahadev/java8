@@ -1,6 +1,7 @@
 package com.java8.practices.advance.rest;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.LongStream;
 
@@ -92,7 +93,18 @@ public class HusbandWifeController
 						.sequential()
 						.collect(
 								ArrayList::new,
-								(list, element) ->	list.add(new Husband("H"+element, new Wife("W"+element))),
+								(list, element) ->	
+								{
+									Wife wife = new Wife();
+									wife.setName("W" + element);
+									wife.setLastUpdatedTime(new Date());
+									Husband husband = new Husband();
+									husband.setName("H" + element);
+									husband.setLastUpdatedTime(new Date());
+									husband.setWife(wife);
+									list.add(husband);
+								}
+								,
 								ArrayList::addAll
 								)
 						));

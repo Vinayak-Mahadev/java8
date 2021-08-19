@@ -1,0 +1,131 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<entity-mappings version="2.0">
+	<package>com.java8.practices.advance.entities.one2many</package>
+	
+	<default-import>import java.util.Date;</default-import>
+	<default-import>//</default-import>
+	
+	<default-import>import javax.persistence.Access;</default-import>
+	<default-import>import javax.persistence.AccessType;</default-import>
+	<default-import>import javax.persistence.Basic;</default-import>
+	<default-import>import javax.persistence.Column;</default-import>
+	<default-import>import javax.persistence.Entity;</default-import>
+	<default-import>import javax.persistence.GeneratedValue;</default-import>
+	<default-import>import javax.persistence.GenerationType;</default-import>
+	<default-import>import javax.persistence.Id;</default-import>
+	<default-import>import javax.persistence.Table;</default-import>
+	<default-import>import javax.persistence.Temporal;</default-import>
+	<default-import>import javax.persistence.TemporalType;</default-import>
+	<default-import>import javax.persistence.Version;</default-import>
+	
+	<default-import>//</default-import>
+	
+	<default-import>import javax.xml.bind.annotation.XmlAccessType;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlAccessorType;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlElement;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlRootElement;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlTransient;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlType;</default-import>
+	
+	<default-import>//</default-import>
+	
+	<default-import>import lombok.Getter;</default-import>
+	<default-import>import lombok.Setter;</default-import>
+	<default-import>import lombok.NoArgsConstructor;</default-import>
+
+	<!-- ================================= Cart ========================================= -->
+	<entity class="Cart">
+		<java-annotations>
+			<java-annotation>@SuppressWarnings("unused")</java-annotation>
+			<java-annotation>@XmlAccessorType(XmlAccessType.FIELD)</java-annotation>
+			<java-annotation>@XmlType(name="cart")</java-annotation>
+			<java-annotation>@XmlRootElement(name="cart")</java-annotation>
+			<java-annotation>@NoArgsConstructor</java-annotation>
+			<java-annotation>@Setter</java-annotation>
+			<java-annotation>@Getter</java-annotation>
+		</java-annotations>
+		<table name="cart"/>
+		<attributes>
+			<id name="cartId">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="cartId", required=true)</java-annotation>
+					<java-annotation>@lombok.NonNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="private"/>
+				<column name="cart_id" nullable="false"/>
+			</id>
+			<basic name="cartName">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="cartName", required=true)</java-annotation>
+					<java-annotation>@lombok.NonNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="private"/>
+				<column name="cart_name" nullable="false"/>
+			</basic>
+			<one-to-many name="items">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="items", required=false)</java-annotation>
+					<java-annotation>@javax.persistence.OneToMany(mappedBy = "cart", fetch = javax.persistence.FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL)</java-annotation>
+					<!--<java-annotation>@org.hibernate.annotations.ColumnDefault("true")</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Item" scope="private"/>
+			</one-to-many>
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="lastUpdatedTime", required=true)</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="public"/>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+	<!-- ================================= Item ========================================= -->
+	<entity class="Item">
+		<java-annotations>
+			<java-annotation>@SuppressWarnings("unused")</java-annotation>
+			<java-annotation>@XmlAccessorType(XmlAccessType.FIELD)</java-annotation>
+			<java-annotation>@XmlType(name="item")</java-annotation>
+			<java-annotation>@XmlRootElement(name="item")</java-annotation>
+			<java-annotation>@NoArgsConstructor</java-annotation>
+			<java-annotation>@Setter</java-annotation>
+			<java-annotation>@Getter</java-annotation>
+		</java-annotations>
+		<table name="item"/>
+		<attributes>
+			<id name="itemId">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="itemId", required=true)</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="private"/>
+				<column name="item_id" nullable="false"/>
+			</id>
+			<basic name="itemName">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="itemName", required=true)</java-annotation>
+					<java-annotation>@lombok.NonNull</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="private"/>
+				<column name="item_name" nullable="false"/>
+			</basic>
+			<many-to-one name="cart">
+				<java-annotations>
+					<java-annotation>@javax.persistence.ManyToOne(optional = false, fetch = javax.persistence.FetchType.LAZY)</java-annotation>
+					<java-annotation>@javax.persistence.JoinColumn(name = "cart_id", nullable = false, referencedColumnName = "cart_id")</java-annotation>
+					<java-annotation>@com.fasterxml.jackson.annotation.JsonIgnore</java-annotation>
+					<java-annotation>@javax.xml.bind.annotation.XmlTransient</java-annotation>
+					<!--<java-annotation>@org.hibernate.annotations.ColumnDefault("true")</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Cart" scope="private"/>
+			</many-to-one>
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="lastUpdatedTime", required=true)</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="public"/>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+</entity-mappings>

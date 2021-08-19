@@ -374,10 +374,15 @@ public class AppServiceLayer
 
 	public Cart createCart(Cart cart) throws ApplicationException
 	{
+//		Cart temp = null;
 		try 
 		{
-			if(cartRepository.getOne(cart.getCartId()) != null)
-				throw new IllegalStateException("This cart is already present");
+//			temp = cartRepository.getOne(cart.getCartId());
+//			if(temp != null)
+//			{
+//				log.info("This cart is already present : " + temp);
+//				throw new IllegalStateException("This cart is already present");
+//			}
 			return cartRepository.saveAndFlush(cart);
 		}
 		catch (Exception e) 
@@ -385,7 +390,10 @@ public class AppServiceLayer
 			log.warn(e.getMessage(),e);
 			throw new ApplicationException(500l, e.getMessage(),e);
 		}
-
+		finally
+		{
+//			temp = null;
+		}
 	}
 
 	public List<Cart> createCarts(List<Cart> carts) throws ApplicationException
@@ -487,8 +495,8 @@ public class AppServiceLayer
 	{
 		try 
 		{
-			if(itemRepository.getOne(item.getItemId()) != null)
-				throw new IllegalStateException("This item is already present");
+//			if(itemRepository.getOne(item.getItemId()) != null)
+//				throw new IllegalStateException("This item is already present");
 			return itemRepository.saveAndFlush(item);
 		}
 		catch (Exception e) 

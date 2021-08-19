@@ -1,0 +1,82 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<entity-mappings version="2.0">
+	<package>com.java8.practices.advance.entities.single</package>
+	
+	<default-import>import java.util.Date;</default-import>
+	<default-import>//</default-import>
+	
+	<default-import>import javax.persistence.Access;</default-import>
+	<default-import>import javax.persistence.AccessType;</default-import>
+	<default-import>import javax.persistence.Basic;</default-import>
+	<default-import>import javax.persistence.Column;</default-import>
+	<default-import>import javax.persistence.Entity;</default-import>
+	<default-import>import javax.persistence.GeneratedValue;</default-import>
+	<default-import>import javax.persistence.GenerationType;</default-import>
+	<default-import>import javax.persistence.Id;</default-import>
+	<default-import>import javax.persistence.Table;</default-import>
+	<default-import>import javax.persistence.Temporal;</default-import>
+	<default-import>import javax.persistence.TemporalType;</default-import>
+	<default-import>import javax.persistence.Version;</default-import>
+	
+	<default-import>//</default-import>
+	
+	<default-import>import javax.xml.bind.annotation.XmlAccessType;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlAccessorType;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlElement;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlRootElement;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlTransient;</default-import>
+	<default-import>import javax.xml.bind.annotation.XmlType;</default-import>
+	
+	<default-import>//</default-import>
+	
+	<default-import>import lombok.Getter;</default-import>
+	<default-import>import lombok.Setter;</default-import>
+	<default-import>import lombok.NoArgsConstructor;</default-import>
+
+	<!-- ================================= Person ========================================= -->
+	<entity class="Person">
+		<java-annotations>
+			<java-annotation>@SuppressWarnings("unused")</java-annotation>
+			<java-annotation>@XmlAccessorType(XmlAccessType.FIELD)</java-annotation>
+			<java-annotation>@XmlType(name="person")</java-annotation>
+			<java-annotation>@XmlRootElement(name="person")</java-annotation>
+			<java-annotation>@NoArgsConstructor</java-annotation>
+			<java-annotation>@Setter</java-annotation>
+			<java-annotation>@Getter</java-annotation>
+		</java-annotations>
+		<table name="person"/>
+		<attributes>
+			<id name="id">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="personId", required=true)</java-annotation>
+					<java-annotation>@GeneratedValue(strategy = GenerationType.AUTO, generator = "person_seq")</java-annotation>
+				</java-annotations>
+				<java-attributes type="Long" scope="private"/>
+				<column name="id_n" nullable="false"/>
+			</id>
+			<basic name="name">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="personName", required=true)</java-annotation>
+				</java-annotations>
+				<java-attributes type="String" scope="private"/>
+				<column name="name_v" nullable="false"/>
+			</basic>
+			<basic name="isActive">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="isActive", required=true)</java-annotation>
+					<!--<java-annotation>@org.hibernate.annotations.ColumnDefault("true")</java-annotation>-->
+				</java-annotations>
+				<java-attributes type="Boolean" scope="private"/>
+				<column name="is_active_b" nullable="false"/>
+			</basic>
+			<version name="lastUpdatedTime">
+				<java-annotations>
+					<java-annotation>@XmlElement(name="lastUpdatedTime", required=true)</java-annotation>
+				</java-annotations>
+				<java-attributes type="Date" scope="private"/>
+				<column name="last_updated_time_dt" nullable="false"/>
+				<temporal>TIMESTAMP</temporal>
+			</version>
+		</attributes>
+	</entity>
+</entity-mappings>

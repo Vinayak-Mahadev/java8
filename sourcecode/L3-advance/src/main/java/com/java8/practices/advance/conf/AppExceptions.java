@@ -38,6 +38,17 @@ public class AppExceptions extends ResponseEntityExceptionHandler
 		return handleExceptionInternal(ex, map, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
 
+	@ExceptionHandler({ApplicationException.class})
+	public ResponseEntity<Object> handleApplicationException(ApplicationException ex, WebRequest request) 
+	{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("message", ex.getMessage());
+		map.put("error_code", ex.getErrorCode());
+
+		//		return new ResponseEntity<Object>(				map, new HttpHeaders(), HttpStatus.NOT_FOUND);
+		return handleExceptionInternal(ex, map, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
+
 	@ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
 	protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) 
 	{

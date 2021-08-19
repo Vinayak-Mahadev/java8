@@ -39,6 +39,11 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>L5-entities</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-dependencies</artifactId>
 			<version>${org.springframework.boot}</version>
@@ -87,21 +92,16 @@
 			<version>${spring-security-core}</version>
 		</dependency>
 		<dependency>
-  			<groupId>org.springframework.boot</groupId>
-  			<artifactId>spring-boot-starter-aop</artifactId>
-  			<version>${spring-boot-starter-aop}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+			<version>${spring-boot-starter-aop}</version>
 		</dependency>
-		<!-- 
-		<dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-actuator</artifactId> 
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-actuator</artifactId> 
 			<version>${spring-boot-starter-actuator}</version> <scope>system</scope> 
 			<systemPath>${project.basedir}/libs/spring-boot-starter-actuator-2.2.2.RELEASE.jar</systemPath> 
-			</dependency> 
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>5.3.9.RELEASE</version>
-		</dependency>
-		-->
+			</dependency> <dependency> <groupId>org.springframework.security</groupId> 
+			<artifactId>spring-security-config</artifactId> <version>5.3.9.RELEASE</version> 
+			</dependency> -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>

@@ -1,10 +1,8 @@
 package com.java8.practices.advance.rest;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.LongStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -109,26 +107,28 @@ public class ShoppingCartController
 
 		// [About collect (supplier, accumulator, combiner)]
 		long count = 10; 
-		shoppingCartService.createCarts(LongStream
-				.range(0l,count)
-				.sequential()
-				.collect(
-						ArrayList::new,
-						(list, element) ->	
-						{
-							Cart cart = new Cart(element, "C"+element);
-							Set<Item> set = new HashSet<Item>();
-							LongStream.range(0, 10).forEach(
-									(l)->
-									{
-										set.add(new Item(l, "I"+element));
-									}
-									);
-							cart.setItems(set);
-							list.add(cart);
-						},
-						ArrayList::addAll
-						));
+		long itemId = 1;
+		for (long element = 1; element <= count; element++) 
+		{
+			Cart cart = new Cart();
+			cart.setCartId(element);
+			cart.setCartName("C:"+element);
+			cart.setLastUpdatedTime(new Date());
+			shoppingCartService.createCart(cart);
+			
+//			Set<Item> set = new HashSet<Item>();
+			for (long l = element; l < 10; l++) 
+			{
+				Item item = new Item();
+				item.setItemId(itemId++);
+				item.setItemName("I:"+element);
+				item.setLastUpdatedTime(new Date());
+				item.setCart(cart);
+				shoppingCartService.createItem(item);
+			}
+//			cart.setItems(set);
+		}
+		
 
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}

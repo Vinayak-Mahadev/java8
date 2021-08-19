@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 import com.java8.jpa.generator.AbstractEntityGenerator;
 import com.java8.jpa.generator.beans.Entity;
 
-public class JpaEntityGenerator extends AbstractEntityGenerator
+public class SpringBootEntityGenerator extends AbstractEntityGenerator
 {
 	private String packageName;
 	public boolean generate(String input, String base, boolean flag) throws EntityGeneratorException
@@ -41,33 +41,42 @@ public class JpaEntityGenerator extends AbstractEntityGenerator
 			
 			outputPath = outputPath + "/" + stringReplacer.apply(packageName, ".", "/");
 
-			File file = new File(outputPath);
-			if(file.exists() && file.isDirectory())
+			if(flag)
 			{
-				if(file.listFiles().length != 0)
+				File file = new File(outputPath);
+				if(file.exists() && file.isDirectory())
 				{
-					for(File temp : file.listFiles())
+					if(file.listFiles().length != 0)
 					{
-						System.out.println("Deleted : " + file.getAbsolutePath());
-						temp.delete();
+						for(File temp : file.listFiles())
+						{
+							System.out.println("Deleted : " + file.getPath());
+							temp.delete();
+						}
 					}
 				}
-			}
-			else
-			{
-				System.out.println("Dir created : " + file.getAbsolutePath());
-				file.mkdirs();
+				else
+				{
+					System.out.println("Dir created : " + file.getPath());
+					file.mkdirs();
+				}
 			}
 
+			List<String> imports = new ArrayList<String>();
+			NodeList defaultImport  = doc.getElementsByTagName(DEFAULT_IMPORT);
+			for (int i = 0; i < defaultImport.getLength(); i++) 
+				if(defaultImport.item(i).getTextContent() != null && !defaultImport.item(i).getTextContent().isEmpty())
+					imports.add(defaultImport.item(i).getTextContent());
+
+//			System.out.println("Default imports :: " + imports);
 
 			NodeList nodeList  = doc.getElementsByTagName(ENTITY);
-
 			for (int i = 0; i < nodeList.getLength(); i++) 
 				entityElements.add((Element) nodeList.item(i));
 
 			System.out.println("-----------------------------------------------------------------------------------------");
 			AtomicInteger integer = new AtomicInteger(1);
-			for(Entity entity : loadEntities(entityElements, packageName, null, true))
+			for(Entity entity : loadEntities(entityElements, packageName, new ArrayList<String>(imports), new Boolean(false)))
 			{
 				//				System.out.println(entity.getJavaFile());
 				FileWriter writer = new FileWriter(outputPath +"/"+ entity.getClassName() +".java");
@@ -82,6 +91,7 @@ public class JpaEntityGenerator extends AbstractEntityGenerator
 		}
 		catch (Exception e) 
 		{
+			e.printStackTrace();
 			if(packageName != null)
 			{
 				outputPath = base + "/" + stringReplacer.apply(packageName, ".", "/");

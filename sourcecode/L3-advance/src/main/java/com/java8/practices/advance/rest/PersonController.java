@@ -1,6 +1,7 @@
 package com.java8.practices.advance.rest;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.LongStream;
 
@@ -78,7 +79,14 @@ public class PersonController
 				.sequential()
 				.collect(
 						ArrayList::new,
-						(list, element) ->	list.add(new Person(element, "P:"+element, true)),
+						(list, element) ->	{
+							Person person = new Person();
+							person.setId(element);
+							person.setName("P:"+element);
+							person.setLastUpdatedTime(new Date());
+							person.setIsActive(true);
+							list.add(person);
+							},
 						ArrayList::addAll
 						));
 		//		.forEach(l -> personRepository.save(new Person(l, "P:"+l, true)));

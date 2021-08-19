@@ -1,6 +1,7 @@
 package com.java8.jpa.generator.beans;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.StringJoiner;
@@ -16,23 +17,22 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Entity 
 {
-	/*private String imports = "import javax.persistence.*;\n"
-			+ "import java.util.Date;\n"
-			+ "import javax.xml.bind.annotation.*;\n"
-			+ "import javax.xml.bind.annotation.adapters.*;\n"
-			+ "import org.hibernate.envers.*;\n"
-			+ "import org.hibernate.validator.constraints.*;\n"
-			+ "import org.hibernate.search.annotations.*;\n";
-	 */
+	public Entity(List<String> imports)
+	{
+		this.imports = imports;
+	}
 
-	private String imports = "import javax.persistence.*;\n"
-			+ "import javax.persistence.Version;\n"
-			+ "import java.util.Date;\n"
-			+ "import javax.xml.bind.annotation.*;\n"
-			+ "import javax.xml.bind.annotation.adapters.*;\n"
-			+ "import org.hibernate.envers.*;\n";
+	private final List<String> defaultImports = Arrays.asList("import javax.persistence.*;", 
+			"import javax.persistence.Version;",
+			"import java.util.Date;",
+			"import javax.xml.bind.annotation.*;",
+			"import javax.xml.bind.annotation.adapters.*;",
+			"import org.hibernate.envers.*;");
 
-	private List<String> javaAnnotations = new ArrayList<String>(); 
+
+	private List<String> imports;
+
+	private List<String> javaAnnotations; 
 
 	private String className;
 
@@ -41,6 +41,8 @@ public class Entity
 	private String tableName;
 
 	private String primaryType;
+
+	private boolean jpaOldType;
 
 	private List<Attributes> attributes = new ArrayList<Attributes>();
 
@@ -53,6 +55,7 @@ public class Entity
 	public List<String> getJavaAnnotations()
 	{
 		List<String> list = new ArrayList<>();
+//		System.out.println("javaAnnotations : " + javaAnnotations);
 		if(javaAnnotations != null)
 			list.addAll(javaAnnotations);
 		list.add("@Entity(name="+ "\"" + getPackageName() +"." + getClassName() + "\")");
@@ -67,41 +70,49 @@ public class Entity
 		final StringJoiner joiner = new StringJoiner("\n");
 		joiner.add(getPackage()+";");
 		joiner.add("\n");
-		joiner.add(getImports());
+
+		if(getImports() != null)
+			getImports().forEach(joiner::add);
+		else
+			getDefaultImports().forEach(joiner::add);
+
 		joiner.add("\n");
+
 		getJavaAnnotations().forEach(joiner::add);
 		joiner.add("public class " + getClassName() + " implements java.io.Serializable");
 		joiner.add("{");
 		joiner.add("");
-		
+
 		if(isRandomSerial())
-		joiner.add(TAB + "private static final long serialVersionUID = "+ (random.nextInt(100) * 1234) +"l;");
+			joiner.add(TAB + "private static final long serialVersionUID = "+ (random.nextInt(100) * 1234) +"l;");
 		else
-		joiner.add(TAB + "private static final long serialVersionUID = "+ 1 +"l;");
-		
+			joiner.add(TAB + "private static final long serialVersionUID = "+ 1 +"l;");
+
 		joiner.add("");
-		// IDAdapter
-		attributes
-		.stream()
-		.forEach(a ->
+
+		if(isJpaOldType())
 		{
-			a.getWriteableIDAdapter(joiner);
-			a.getWriteableListener(joiner);
-		});
+			// IDAdapter
+			attributes
+			.stream()
+			.forEach(a ->
+			{
+				a.getWriteableIDAdapter(joiner);
+				a.getWriteableListener(joiner);
+			});
 
-
-
-		// setter, getter, enquirer, adder && remover
-		attributes
-		.stream()
-		.forEach(a ->
-		{
-			a.getWriteableSetters(joiner);
-			a.getWriteableGetters(joiner);
-			a.getWriteableEnquirer(joiner);
-			a.getWriteableAdder(joiner);
-			a.getWriteableRemove(joiner);
-		});
+			// setter, getter, enquirer, adder && remover
+			attributes
+			.stream()
+			.forEach(a ->
+			{
+				a.getWriteableSetters(joiner);
+				a.getWriteableGetters(joiner);
+				a.getWriteableEnquirer(joiner);
+				a.getWriteableAdder(joiner);
+				a.getWriteableRemove(joiner);
+			});
+		}
 
 		prepareFields(joiner, attributes);
 
@@ -128,6 +139,6 @@ public class Entity
 
 	static final String TAB = "\t";
 	static final String TAB_TODO = "\t// Needs to implement";
-	
+
 	protected boolean randomSerial;
 }

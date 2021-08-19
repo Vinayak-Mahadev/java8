@@ -17,30 +17,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<lombok>1.18.20</lombok>
 		<jboss-ejb-api_3.1_spec>1.0.2.Final</jboss-ejb-api_3.1_spec>
-		<hibernate-envers>4.1.0.Final</hibernate-envers>
-		<hibernate-validator>4.2.0.Final</hibernate-validator>
-		<master.version>0.0.23-SNAPSHOT</master.version>
+		<jackson.version>2.10.1</jackson.version>
+		<javax.persistence>2.2</javax.persistence>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.treetechnologies.masters</groupId>
-			<artifactId>master-entities</artifactId>
-			<version>${master.version}</version><!--$NO-MVN-MAN-VER$ -->
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-envers</artifactId>
-			<version>${hibernate-envers}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate-validator}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec.javax.ejb</groupId>
@@ -49,27 +34,52 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<version>${javax.persistence}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- <plugin> <groupId>com.java8.practices</groupId> <artifactId>L4-jpa-plugin</artifactId> 
+				<version>1.0</version> <configuration> <base>${project.basedir}/src/main/java</base> 
+				<templates>${project.basedir}/src/main/resources/entities/template_1.xml</templates> 
+				</configuration> <executions> <execution> <goals> <goal>jpa-generate</goal> 
+				</goals> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>com.java8.practices</groupId>
 				<artifactId>L4-jpa-plugin</artifactId>
 				<version>1.0</version>
 				<configuration>
 					<base>${project.basedir}/src/main/java</base>
-					<templates>${project.basedir}/src/main/resources/entities/template_1.xml</templates>
+					<fileLoc>${project.basedir}/src/main/resources/sample/</fileLoc>
+					<templates>single_p|Husband_Wife|Cart_item</templates>
 				</configuration>
 				<executions>
 					<execution>
 						<goals>
-							<goal>jpa-generate</goal>
+							<goal>boot-generate</goal>
 						</goals>
 					</execution>
 				</executions>

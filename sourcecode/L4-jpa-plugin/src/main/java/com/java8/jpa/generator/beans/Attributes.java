@@ -16,7 +16,9 @@ import lombok.ToString;
 public class Attributes 
 {
 	private String entityName;
-
+	
+	private boolean jpaOldType;
+	
 	private String packageName;
 
 	private String attributesType;
@@ -419,25 +421,38 @@ public class Attributes
 
 	protected void oneToMany(StringJoiner joiner)
 	{
-		if(getOptional() != null && getOptional().trim().isEmpty())
-			joiner.add(TAB + "@OneToMany(fetch=FetchType."+getFetchType()+", mappedBy=\""+getMappedBy()+"\""+ ")");
+		if(isJpaOldType())
+		{
+			if(getOptional() != null && getOptional().trim().isEmpty())
+				joiner.add(TAB + "@OneToMany(fetch=FetchType."+getFetchType()+", mappedBy=\""+getMappedBy()+"\""+ ")");
+			else
+				joiner.add(TAB + "@OneToMany(fetch=FetchType."+getFetchType()+", optional="+getOptional()+")");
+			if(getScope() != null && getScope().trim().isEmpty())
+				setScope("protected");
+			if(getPackageName().isEmpty())
+				joiner.add(TAB + getScope() + " java.util.Set<"+getType().trim()+"> "+getName()+" = new java.util.HashSet<>();");
+			else 
+				joiner.add(TAB + getScope() + " java.util.Set<"+getPackageName().trim()+"."+getType().trim()+"> "+getName()+" = new java.util.HashSet<>();");
+		}
 		else
-			joiner.add(TAB + "@OneToMany(fetch=FetchType."+getFetchType()+", optional="+getOptional()+")");
-		if(getScope() != null && getScope().trim().isEmpty())
-			setScope("protected");
-		if(getPackageName().isEmpty())
-			joiner.add(TAB + getScope() + " java.util.Set<"+getType().trim()+"> "+getName()+" = new java.util.HashSet<>();");
-		else 
-			joiner.add(TAB + getScope() + " java.util.Set<"+getPackageName().trim()+"."+getType().trim()+"> "+getName()+" = new java.util.HashSet<>();");
+		{
+			if(getPackageName().isEmpty())
+				joiner.add(TAB + getScope() + " java.util.Set<"+getType().trim()+"> "+getName()+";");
+			else 
+				joiner.add(TAB + getScope() + " java.util.Set<"+getPackageName().trim()+"."+getType().trim()+"> "+getName()+";");
+		
+		}	
 	}
 
 	protected void manyToOne(StringJoiner joiner)
 	{
-		if(getOptional() != null && getOptional().trim().isEmpty())
-			joiner.add(TAB + "@ManyToOne(fetch=FetchType."+getFetchType() + ")");
-		else
-			joiner.add(TAB + "@ManyToOne(fetch=FetchType."+getFetchType()+", optional="+getOptional()+")");
-
+		if(isJpaOldType())
+		{
+			if(getOptional() != null && getOptional().trim().isEmpty())
+				joiner.add(TAB + "@ManyToOne(fetch=FetchType."+getFetchType() + ")");
+			else
+				joiner.add(TAB + "@ManyToOne(fetch=FetchType."+getFetchType()+", optional="+getOptional()+")");
+		}
 		if(getScope() != null && getScope().trim().isEmpty())
 			setScope("protected");
 		if(getPackageName().isEmpty())
@@ -453,7 +468,15 @@ public class Attributes
 
 	protected void oneToOne(StringJoiner joiner)
 	{
-		joiner.add(TAB_TODO);
+//		joiner.add(TAB_TODO);
+		if(getScope() != null && getScope().trim().isEmpty())
+			setScope("protected");
+	
+		if(getPackageName().isEmpty())
+			joiner.add(TAB + getScope() + " " + getType().trim()+" "+getName()+";");
+		else 
+			joiner.add(TAB + getScope() +" "+ getPackageName().trim()+"."+getType().trim()+" "+getName()+";");
+		
 	}
 
 	static final String ID = "id";

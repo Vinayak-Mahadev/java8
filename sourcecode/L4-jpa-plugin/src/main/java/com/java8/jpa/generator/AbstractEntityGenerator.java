@@ -43,6 +43,7 @@ public abstract class AbstractEntityGenerator implements EntityGenerator
 	protected static String MAPPED_BY = "mapped-by";
 	protected static String PACKAGE = "package";
 	protected static String ENTITY = "entity";
+	protected static String DEFAULT_IMPORT = "default-import";
 	protected static String ELEMENT = "Element";
 	protected static String SEQUENCE_NAME = "sequence-name";
 	protected static String ALLOCATION_SIZE = "allocation-size";
@@ -53,6 +54,8 @@ public abstract class AbstractEntityGenerator implements EntityGenerator
 	protected static String GENERATOR= "generator";
 	protected static String STRATEGY= "strategy";
 	protected static String JAVA_ATTRIBUTES= "java-attributes";
+	protected static String TABLE = "table";
+	protected static String ATTRIBUTES = "attributes";
 
 	public boolean generate(Map<String,String> fileNameAndLocation) throws EntityGeneratorException
 	{
@@ -68,16 +71,18 @@ public abstract class AbstractEntityGenerator implements EntityGenerator
 		return joiner.toString();
 	};
 	
-	protected List<Entity> loadEntities(List<Element> entityElements, String packageName) throws Exception
+	protected synchronized List<Entity> loadEntities(List<Element> entityElements, String packageName, final List<String> imports, final boolean jpaOldType) throws Exception
 	{
 		List<Entity> entities = new ArrayList<Entity>();
 
 		for (Element entityElement : entityElements) 
 		{
-			Entity entity = new Entity();
+//			System.out.println("loadEntities : imports ::: " + imports);
+			Entity entity = new Entity(imports);
+			entity.setJpaOldType(jpaOldType);
 			entity.setClassName(entityElement.getAttribute("class"));
 			entity.setPackageName(packageName);
-
+			entity.setImports(imports);
 			NodeList entityChildList = entityElement.getChildNodes();
 
 			for (int i = 0; i < entityChildList.getLength(); i++) 
@@ -85,17 +90,19 @@ public abstract class AbstractEntityGenerator implements EntityGenerator
 				Node childElement =  entityChildList.item(i);
 				if(childElement == null || !childElement.getClass().getName().contains(ELEMENT)) continue;
 
-				else if(childElement.getNodeName()!= null && childElement.getNodeName().equalsIgnoreCase(JAVA_ANNOTATION))
+				else if(childElement.getNodeName()!= null && childElement.getNodeName().equalsIgnoreCase(JAVA_ANNOTATION_S))
 				{
 					NodeList javaAnnoList = childElement.getChildNodes();
+					List<String> javaAnnotations = new ArrayList<String>();
 					for (int j = 0; j < javaAnnoList.getLength(); j++) 
 					{
-						Node javaAnn = javaAnnoList.item(i);
-						if(javaAnn != null && javaAnn.getTextContent() != null)
-							entity.getJavaAnnotations().add(javaAnn.getTextContent());
+						Node javaAnn = javaAnnoList.item(j);
+						if(javaAnn != null && javaAnn.getTextContent() != null && !javaAnn.getTextContent().trim().isEmpty())
+							javaAnnotations.add(javaAnn.getTextContent());
 					}
+					entity.setJavaAnnotations(javaAnnotations);
 				}
-				else if(childElement.getNodeName()!= null && childElement.getNodeName().equalsIgnoreCase("table"))
+				else if(childElement.getNodeName()!= null && childElement.getNodeName().equalsIgnoreCase(TABLE))
 				{
 					Element element = (Element) childElement;
 					if(element == null || !element.getClass().getName().contains(ELEMENT)) continue;
@@ -104,7 +111,7 @@ public abstract class AbstractEntityGenerator implements EntityGenerator
 					else
 						entity.setTableName(entity.getClassName().toLowerCase());
 				}
-				else if(childElement.getNodeName()!= null && childElement.getNodeName().equalsIgnoreCase("attributes"))
+				else if(childElement.getNodeName()!= null && childElement.getNodeName().equalsIgnoreCase(ATTRIBUTES))
 				{
 					Element attrElement = (Element) childElement;
 					if(attrElement == null || !attrElement.getClass().getName().contains(ELEMENT)) continue;
@@ -116,6 +123,7 @@ public abstract class AbstractEntityGenerator implements EntityGenerator
 						if(element == null || !element.getClass().getName().contains(ELEMENT)) continue;
 
 						Attributes attributes = new Attributes();
+						attributes.setJpaOldType(jpaOldType);
 						attributes.setEntityName(entity.getClassName());
 						attributes.setAttributesType(element.getNodeName().trim());
 						attributes.setPackageName(entity.getPackageName());
@@ -271,7 +279,7 @@ public abstract class AbstractEntityGenerator implements EntityGenerator
 		return list;
 	}
 
-	protected Document convertStringToXMLDocument(String xmlString) 
+	protected synchronized Document convertStringToXMLDocument(String xmlString) 
 	{
 		//Parser that produces DOM object trees from XML content
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
